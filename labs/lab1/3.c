@@ -10,6 +10,25 @@
 
     If the character is a lower case letter, print the letter in
     upper case. */
-
+#include <stdio.h>
+#include <ctype.h>
 
 	
+	int main(){
+		int c;
+		while((c = getchar())!= EOF){
+			// if not a letter
+			if(!isalpha(c)){
+				putchar(c);
+			}
+			// if upper case letter
+			if(c >= 'A' && c <= 'Z') {
+				putchar(tolower(c));
+			}
+			// if lower case letter
+			if(c >= 'a' && c <= 'z'){
+				putchar(toupper(c));
+			}
+		}
+		return 0;
+	}
