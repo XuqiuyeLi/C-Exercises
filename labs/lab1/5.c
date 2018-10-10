@@ -51,8 +51,12 @@ int validInt(int x){
      return 0;
 }
 
+int generateNewMatrix(int A[9]){
+
+}
+
 int main(){
-     int numGen, current;
+     int numGen, current, countGen;
      int gameArr[9];
      int i = 0;
      printf("Please enter an integer for number of generations:\n");
@@ -66,7 +70,7 @@ int main(){
                }
           }
           // The original matrix 
-          printf("\nThe Matrix Generation %d:", numGen);
+          printf("\nThe Matrix Generation 0:");
           for(i = 0; i < 9; i++){
                if(i == 3 || i == 6){
                     printf("\n");
