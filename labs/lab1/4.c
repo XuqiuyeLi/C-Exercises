@@ -1,6 +1,5 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <ctype.h>
 
 /* 
  * @author Summer Li
@@ -25,10 +24,6 @@ void sortInt(int n, int A[n]) {
 
 /*
 B (10 Points)
-     Write a main program that does all the following.  I suggest,
-     but do not require, that you use getint() from the notes and
-     given on page 97 of the book.
-
      * Reads a positive integer N.
      * Checks that 0<N<100.  If N is not in that range, prints
          an error message and terminates.
@@ -38,47 +33,43 @@ B (10 Points)
      iii. Calls your sort routine from part A.
      iv.  Prints the sorted array, one number per line.
 */
-int getch(void);
-void ungetch(int);
 
 
-int getint(int *pn) {
-    int c, sign;
-    while (isspace(c=getch())) ;
-    if (!isdigit(c) && c!=EOF && c!='+' && c!='-') {
-      ungetch(c);
-      return 0;
+
+int main(){
+    int i = 0;
+    int number;
+    int n;
+    printf("Enter an integer: ");   
+    // scanf() reads the formatted input and stores them
+    scanf("%d", &number);
+    n = number;
+
+    if(n > 0 && n < 100){
+      int A[n];
+      printf("The sorting function only works if you enter numbers!\nPlease enter %d integers:\n", n); 
+      while(n > 0){  
+        scanf("%d", &A[i]);
+        n--;
+        i++;
+      }
+      // prints the original array
+      printf("\n\nThe original array is:\n");
+      for(i = 0; i < number; i++){
+        printf("%d\n", A[i]);
+      }
+      // call the sort function to sort numbers in ascending order
+      sortInt(number,A);
+      // prints the sorted array
+      printf("\n\nThe sorted array is:\n");
+      for(i = 0; i < number; i++){
+        printf("%d\n", A[i]);
+      }
     }
-    sign = (c=='-') ? -1 : 1;
-    if (c=='+' || c=='-')
-      c = getch();
-    for (*pn = 0; isdigit(c); c=getch())
-      *pn = 10 * *pn + (c-'0');
-    *pn *= sign;
-    if (c != EOF)
-      ungetch(c);
-    return c;
- }
-
-int main (){
-	int i = getint();
-	//int j = 0;
-	//int A[i]; 
-	if(i <= 0 || i >= 100){
-		printf("The integer is not between 0 and 100."); 
-		return 0;
-	}
-	printf("%d\n", i);
-	/*while(i > 0){
-		A[j] = getchar();
-		printf("%d\n", A[j]);
-		j++;
-		i--;
-	}
-	sortInt(i, A);
-	for(j = 0; j < i; j++) {
-		printf("%d\n", A[j]);
-	}*/
-	return 0;
-
+    else{
+      // N <= 0 or N >= 100
+      printf("The integer is not valid! Please try integer between 0 and 100.\n"); 
+      return 0;
+    }  
+    return 0;
 }
