@@ -7,6 +7,7 @@
  * This function checks if a number is prime or not
  */
 
+// Assume the input is number
 int isPrime(int x) {
     // If x<2 or x>1000, the input is erroneous and isPrime() returns -1.
 	if( x < 2 || x > 1000) {
@@ -37,9 +38,7 @@ int isPrime(int x) {
  *       x is not prime
  */
 
-
 int main(int argc, char * argv[]) {
-	// assume lo <= hi
 	int lo = atoi(argv[1]); 
 	int hi = atoi(argv[2]);
 	// check if right numbers of argumnents are passed in
@@ -48,6 +47,7 @@ int main(int argc, char * argv[]) {
 			printf("The first argument should be smaller than the second!\n");
 			return 0;
 		}
+		// assume lo <= hi
 		for(int i = lo; i <= hi; i++){
 			if(isPrime(i) == 1){
 				printf("%d is prime\n", i);
