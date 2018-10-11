@@ -47,7 +47,7 @@ int main(){
 
     if(n > 0 && n < 100){
       int A[n];
-      printf("The sorting function only works if you enter numbers!\nPlease enter %d integers:\n", n); 
+      printf("\nThe sorting function only works if you enter numbers!\nPlease enter %d integers:\n", n); 
       while(n > 0){  
         scanf("%d", &A[i]);
         n--;
