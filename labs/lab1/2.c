@@ -9,13 +9,14 @@
 
 // Assume the input is number
 int isPrime(int x) {
+	int i;
     // If x<2 or x>1000, the input is erroneous and isPrime() returns -1.
 	if( x < 2 || x > 1000) {
 		return -1;
 	}
     // If 2<=x<=1000 and x is not a prime number, isPrime() returns 0.
 	// check if x is divided by any natural number starting from 2 until x/2
-	for(int i = 2; i <= x / 2; i++) {
+	for(i = 2; i <= x / 2; i++) {
 		// if x can be divided by a smaller natural number, then it's not prime
 		if( x % i == 0){
 			return 0;
@@ -41,6 +42,7 @@ int isPrime(int x) {
 int main(int argc, char * argv[]) {
 	int lo = atoi(argv[1]); 
 	int hi = atoi(argv[2]);
+	int i;
 	// check if right numbers of argumnents are passed in
 	if(argc == 3){
 		if(lo > hi){
@@ -48,7 +50,7 @@ int main(int argc, char * argv[]) {
 			return 0;
 		}
 		// assume lo <= hi
-		for(int i = lo; i <= hi; i++){
+		for(i = lo; i <= hi; i++){
 			if(isPrime(i) == 1){
 				printf("%d is prime\n", i);
 			}
