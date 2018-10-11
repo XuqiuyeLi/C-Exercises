@@ -111,10 +111,12 @@ int main(){
      if(numGen >= 0){
           printf("\nPlease enter 9 integers (you can only enter either 0 or 1):\n");
           for(i = 0; i < 9; i++){
-               scanf("%d", &current); 
-               if(current == 0 || current == 1){
-                    gameArr[i] = current;
-               }
+               scanf("%d", &current);
+               if(current != 0 && current != 1){
+                    printf("Contains invalid input, please only enter 0 or 1.\n");
+                    return 0;
+               } 
+               gameArr[i] = current;
           }
           // The original matrix 
           printf("\nThe Matrix Generation 0:\n");
