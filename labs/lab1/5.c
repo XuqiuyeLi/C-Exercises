@@ -1,28 +1,11 @@
-/*   Write a C main program that plays the following simplification of
-     Conway's game of life.
-
-     The program reads 10 integers from the terminal.
-     The first integer is called numGen short for number of
-     generations.  Check that it is positive and abort the run if it is
-     not.  The remaining 9 integers must each be 0 or 1 (check that
-     they are 0 or 1 and abort if not).
+/*
+ * @author Summer Li  
+ *
  */
 
 
 
 #include <stdio.h>
-/*
-int readValidInt(int x){
-     int y;
-     if(x == 0 || x == 1){
-          return 1;
-     }
-     else{
-          scanf("%d", &y);
-          return validInt(y);
-     }
-     return 0;
-} */
 
 
 /* 
@@ -134,5 +117,6 @@ int main(){
           printf("Invalid number\n");
           return 0;
      }
+     return 0;
 }
 
