@@ -16,6 +16,7 @@
 
      int main(int argc, char * argv[]) {
         // Converting string type to integer type
+        // only takes 3 numbers
         if(argc == 4) {
             // argv[0] is the program name arg
             int start = atoi(argv[1]); 
