@@ -1,7 +1,13 @@
 # LAB 1 - C programs
 
 ## Instructions
+To _complie_ the programs, use the following commandline:
+`gcc -Wall -g -o programName programSource.c`
 
+To _run_ the programs, use the following commandline:
+`./programName`
+
+## Program Details
 #### Q1
 - This program takes **3 numbers** as arguments "start", "end", and "increment"
 - It prints out all numbers from "start" to "end" by "increment"
