@@ -26,18 +26,6 @@ int main (int argc, char *argv[]) {
     struct node2d *p2d;
     p2d = mkExConfig();
     printConfig(p2d);
-
-    char* command;
-    printf("Do you want to insert a node?\n");
-    scanf("%s", command);
-    if(command[0] != 'I' || command[1] != 'n' || command[2] != 's' || command[3] != ''){
-        // print an error
-        printf("The command format should be:\n Ins nameOf2dNode nameOf1dNodeToInsert\n");
-        return 0;
-    }
-    printf("correct command");
-
-
     return 0;
 }
 
@@ -131,4 +119,23 @@ int print1dNode(struct node1d *p1d){
     printf("\tThe %s 1d node has name: %s\n", string, current1d->name);
     counter++;
     return counter;
+}
+
+/*----------------- Part 3 ---------------------*/
+
+/*
+ * function for insertion of 1d nodes onto a given sub-list
+ */
+
+int insert(struct node2d *p2d, char* name){
+    char* command;
+    printf("Do you want to insert a node?\n");
+    scanf("%s", command);
+    if(command[0] != 'I' || command[1] != 'n' || command[2] != 's' || command[3] != ''){
+        // print an error
+        printf("The command format should be:\n Ins nameOf2dNode nameOf1dNodeToInsert\n");
+        return 0;
+    }
+    printf("correct command");
+
 }
