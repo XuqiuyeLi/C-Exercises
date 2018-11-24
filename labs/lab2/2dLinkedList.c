@@ -1,6 +1,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <ctype.h>
+#include <string.h>
 #define MAXLENGTH 255
 
 // structs
@@ -22,17 +23,20 @@ struct node2d *mkExConfig ();
 void printConfig(struct node2d *p2d);
 void print2dNode(struct node2d *p2d);
 int print1dNode(struct node1d *p1d);
-void checkCommand();
+int insert(struct node2d *p2d, char* name2d, char* name1d);
 
 // main
 int main (void) {
-    int c,i;
+    int c;
     int index1d = 0, index2d = 0;
     char NodeName2d[MAXLENGTH];
     char NodeName1d[MAXLENGTH];
+    char *Name2d = NodeName2d;
+    char *Name1d = NodeName1d;
     struct node2d *p2d;
     p2d = mkExConfig();
     printConfig(p2d);
+
 
     // read commands for inserting a new 1dNode to an existing 2dNode
     printf("\nDo you want to insert a node?\n");
@@ -63,7 +67,9 @@ int main (void) {
     if(c != '\n'){
         printf("Invalid format!\n");
         exit(2);
-    }  
+    }
+
+    insert(p2d, Name2d, Name1d); 
 
     return 0;
 }
@@ -167,19 +173,20 @@ int print1dNode(struct node1d *p1d){
  * function for insertion of 1d nodes onto a given sub-list
  */
 
-int insert(struct node2d *p2d，char* name2d[], char* name1d[]){
+int insert(struct node2d *p2d, char* name2d, char* name1d){
     struct node2d *current2d = p2d;
     struct node1d *current1d;
     struct node1d *insertNode;
     while(current2d->down != NULL){
-        if(current2d->name != name2d){
+        if((strcmp(current2d->name, name2d)) != 0){
             current2d = current2d->down;
         }
         else{
             break;
         }
     }
-    if(current2d->name == name2d){
+    // check if it's the last one or the matching 2d node
+    if((strcmp(current2d->name, name2d)) == 0){
         insertNode = mk1dNode(name1d, NULL);
         if(current2d->first != NULL){
             current1d = current2d->first;
@@ -191,6 +198,7 @@ int insert(struct node2d *p2d，char* name2d[], char* name1d[]){
         else{
             current2d->first = insertNode;
         }
+        printConfig(p2d);
         return 0;
     }
     printf("No such 2dNode is found\n");
