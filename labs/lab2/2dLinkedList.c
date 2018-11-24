@@ -205,3 +205,59 @@ int insert(struct node2d *p2d, char* name2d, char* name1d){
     exit(2);
 
 }
+
+/*----------------- Part 4 ---------------------*/
+
+/*
+ * function for insertion of 1d nodes onto a given sub-list in alphabetical order
+ */
+
+int insertAlphabetically(struct node2d *p2d, char* name2d, char* name1d){
+    struct node2d *current2d = p2d;
+    struct node1d *current1d;
+    struct node1d *before;
+    struct node1d *insertNode;
+    while(current2d->down != NULL){
+        if((strcmp(current2d->name, name2d)) != 0){
+            current2d = current2d->down;
+        }
+        else{
+            break;
+        }
+    }
+    // check if it's the last one or the matching 2d node
+    if((strcmp(current2d->name, name2d)) == 0){
+        insertNode = mk1dNode(name1d, NULL);
+        if(current2d->first == NULL){
+            current2d->first = insertNode;
+        }
+        else{
+            current1d = current2d->first;
+            before = NULL;
+            // insert in the front
+            if((strcmp(current1d->name, name1d)) >= 0){
+                insertNode->next = current1d;
+                current2d->first = insertNode;
+            }
+            else{
+                // insert in the middle
+                while(current1d->next != NULL){
+                    // the node should be inserted before current node
+                    if((strcmp(current1d->name, name1d)) >= 0){
+                        insertNode->next = current1d;
+                        before->next = insertNode;
+                        return 0;
+                    }
+                    before = current1d;
+                    current1d = current1d->next;
+                }
+                // insert in the end
+                current1d->next = insertNode;
+            }
+        }
+        return 0;
+    }
+    printf("No such 2dNode is found\n");
+    exit(2);
+
+}
