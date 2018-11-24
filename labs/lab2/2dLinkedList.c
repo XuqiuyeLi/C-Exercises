@@ -167,7 +167,33 @@ int print1dNode(struct node1d *p1d){
  * function for insertion of 1d nodes onto a given sub-list
  */
 
-int insert(char* name2d[], char* name1d[]){
-
+int insert(struct node2d *p2d，char* name2d[], char* name1d[]){
+    struct node2d *current2d = p2d;
+    struct node1d *current1d;
+    struct node1d *insertNode;
+    while(current2d->down != NULL){
+        if(current2d->name != name2d){
+            current2d = current2d->down;
+        }
+        else{
+            break;
+        }
+    }
+    if(current2d->name == name2d){
+        insertNode = mk1dNode(name1d, NULL);
+        if(current2d->first != NULL){
+            current1d = current2d->first;
+            while(current1d->next != NULL){
+                current1d = current1d->next;
+            }
+            current1d->next = insertNode;
+        }
+        else{
+            current2d->first = insertNode;
+        }
+        return 0;
+    }
+    printf("No such 2dNode is found\n");
+    exit(2);
 
 }
