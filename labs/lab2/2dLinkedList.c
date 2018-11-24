@@ -1,5 +1,7 @@
 #include <stdlib.h>
 #include <stdio.h>
+#include <ctype.h>
+#define MAXLENGTH 255
 
 // structs
 struct node2d {
@@ -20,12 +22,49 @@ struct node2d *mkExConfig ();
 void printConfig(struct node2d *p2d);
 void print2dNode(struct node2d *p2d);
 int print1dNode(struct node1d *p1d);
+void checkCommand();
 
 // main
-int main (int argc, char *argv[]) {
+int main (void) {
+    int c,i;
+    int index1d = 0, index2d = 0;
+    char NodeName2d[MAXLENGTH];
+    char NodeName1d[MAXLENGTH];
     struct node2d *p2d;
     p2d = mkExConfig();
     printConfig(p2d);
+
+    // read commands for inserting a new 1dNode to an existing 2dNode
+    printf("\nDo you want to insert a node?\n");
+    // check first 4 characters are "Ins "
+    if((c=getchar()) != 'I' || (c=getchar()) != 'n' || (c=getchar()) != 's' || (c=getchar()) != ' '){
+        printf("The command should start with 'Ins '\n");
+        exit(2);
+    }
+    // get the name of the 2dNode to insert from
+    while((c = getchar())){
+        if (!isalnum(c)){
+            break;
+        }
+        NodeName2d[index2d++] = c;   
+    }
+    if(c != ' '){
+        printf("Only alphanumeric character allowed!\n");
+        exit(2);
+    }
+    
+    // get the name of the 1dNode for insertion
+    while((c = getchar())){
+        if (!isalnum(c)){
+            break;
+        }
+        NodeName1d[index1d++] = c;   
+    }
+    if(c != '\n'){
+        printf("Invalid format!\n");
+        exit(2);
+    }  
+
     return 0;
 }
 
@@ -100,7 +139,7 @@ void print2dNode(struct node2d *p2d){
         num1d += print1dNode(current2d->first);
     }
     num2d++;
-    printf("\nThe number of 2d nodes: %d\n The number of 1d nodes: %d\n", num2d, num1d);
+    printf("\nThe number of 2d nodes: %d\nThe number of 1d nodes: %d\n", num2d, num1d);
 }
 
 int print1dNode(struct node1d *p1d){
@@ -121,21 +160,14 @@ int print1dNode(struct node1d *p1d){
     return counter;
 }
 
+
 /*----------------- Part 3 ---------------------*/
 
 /*
  * function for insertion of 1d nodes onto a given sub-list
  */
 
-int insert(struct node2d *p2d, char* name){
-    char* command;
-    printf("Do you want to insert a node?\n");
-    scanf("%s", command);
-    if(command[0] != 'I' || command[1] != 'n' || command[2] != 's' || command[3] != ''){
-        // print an error
-        printf("The command format should be:\n Ins nameOf2dNode nameOf1dNodeToInsert\n");
-        return 0;
-    }
-    printf("correct command");
+int insert(char* name2d[], char* name1d[]){
+
 
 }
