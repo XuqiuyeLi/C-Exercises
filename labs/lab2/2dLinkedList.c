@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include <ctype.h>
 #include <string.h>
-#define MAXLENGTH 255
+#define MAXLENGTH 50
 
 // structs
 struct node2d {
@@ -18,61 +18,78 @@ struct node1d {
 // funs in this file
 struct node1d *mk1dNode(char *name, struct node1d *next);
 struct node2d *mk2dNode(struct node1d *first, char *name, struct node2d *down);
-struct node2d *mkExConfig ();
+struct node2d *mkExConfig();
+struct node2d *part4Config();
+struct node2d *insertCommand(struct node2d *p2d);
+
+
 // external funs
 void printConfig(struct node2d *p2d);
 void print2dNode(struct node2d *p2d);
 int print1dNode(struct node1d *p1d);
 int insert(struct node2d *p2d, char* name2d, char* name1d);
+int insertAlphabetically(struct node2d *p2d, char* name2d, char* name1d);
+
 
 // main
 int main (void) {
-    int c;
-    int index1d = 0, index2d = 0;
-    char NodeName2d[MAXLENGTH];
-    char NodeName1d[MAXLENGTH];
-    char *Name2d = NodeName2d;
-    char *Name1d = NodeName1d;
     struct node2d *p2d;
     p2d = mkExConfig();
     printConfig(p2d);
-
-
-    // read commands for inserting a new 1dNode to an existing 2dNode
-    printf("\nDo you want to insert a node?\n");
-    // check first 4 characters are "Ins "
-    if((c=getchar()) != 'I' || (c=getchar()) != 'n' || (c=getchar()) != 's' || (c=getchar()) != ' '){
-        printf("The command should start with 'Ins '\n");
-        exit(2);
-    }
-    // get the name of the 2dNode to insert from
-    while((c = getchar())){
-        if (!isalnum(c)){
-            break;
-        }
-        NodeName2d[index2d++] = c;   
-    }
-    if(c != ' '){
-        printf("Only alphanumeric character allowed!\n");
-        exit(2);
-    }
-    
-    // get the name of the 1dNode for insertion
-    while((c = getchar())){
-        if (!isalnum(c)){
-            break;
-        }
-        NodeName1d[index1d++] = c;   
-    }
-    if(c != '\n'){
-        printf("Invalid format!\n");
-        exit(2);
-    }
-
-    insert(p2d, Name2d, Name1d); 
-
+    p2d = insertCommand(p2d);
+    print2dNode(p2d);
+    printf("\nInsertion Complete.\n");
     return 0;
 }
+
+
+struct node2d *insertCommand(struct node2d *p2d){
+    int c;
+    // read commands for inserting a new 1dNode to an existing 2dNode
+    printf("\nDo you want to insert a node?\n");
+    while ((c = getchar()) != EOF) {
+        int index1d = 0, index2d = 0;
+        char *Name2d = (char *)malloc(sizeof(char)*MAXLENGTH);
+        char *Name1d = (char *)malloc(sizeof(char)*MAXLENGTH);
+        // check first 4 characters are "Ins "
+        if(c != 'I' || (c=getchar()) != 'n' || (c=getchar()) != 's' || (c=getchar()) != ' '){
+            printf("The command should start with 'Ins '\n");
+            exit(2);
+        }
+        // get the name of the 2dNode to insert from
+        while((c = getchar())){
+            if (!isalnum(c)){
+                break;
+            }
+            Name2d[index2d++] = c;   
+        }
+        if(c != ' '){
+            printf("Only alphanumeric character allowed!\n");
+            exit(2);
+        }
+    
+        // get the name of the 1dNode for insertion
+        while((c = getchar())){
+            if (!isalnum(c)){
+                break;
+            }
+            Name1d[index1d++] = c;   
+        }
+        if(c != '\n'){
+            printf("Invalid format!\n");
+            exit(2);
+        }
+        /*------------ Uncomment to insert alphabetically ------------*/
+        insert(p2d, Name2d, Name1d);
+        //insertAlphabetically(p2d, Name2d, Name1d);
+        free(Name2d);
+        free(Name1d);
+    }
+    return p2d;
+    // clear the array
+
+}
+
 
 struct node2d *mkExConfig() {
     struct node1d *p1d;
@@ -97,6 +114,23 @@ struct node2d *mkExConfig() {
     return p2d;
 }
 
+struct node2d *part4Config() {
+    struct node2d *p2d;
+    // create rows from bottom to top
+    
+    // create bottom row 
+    p2d = mk2dNode(NULL, "R2D2", NULL);
+
+    // create middle row
+    p2d = mk2dNode(NULL, "alice", p2d);
+
+    // create top row 
+    p2d = mk2dNode(NULL, "joe", p2d);
+
+    return p2d;
+}
+
+
 struct node1d *mk1dNode(char *name, struct node1d *next) {
     struct node1d *p1d;
     p1d = (struct node1d *)malloc(sizeof(struct node1d));
@@ -116,6 +150,8 @@ struct node2d *mk2dNode(struct node1d *first, char *name, struct node2d *down) {
 }
 
 
+
+
 /*----------------- Part 1 ---------------------*/
 void printConfig(struct node2d *p2d){
     print2dNode(p2d);
@@ -127,13 +163,13 @@ void print2dNode(struct node2d *p2d){
     struct node2d *current2d = p2d;
     char* string;
     int num2d = 0;
-    int num1d; 
+    int num1d = 0; 
 
     while(current2d->down != NULL){
         string = (current2d == p2d) ? "first" : "next";
         printf("\nThe %s 2d node has name: %s\n", string, current2d->name);
         if(current2d->first != NULL){
-            num1d = print1dNode(current2d->first);
+            num1d += print1dNode(current2d->first);
         }
         num2d++;
         current2d = current2d->down;
@@ -198,13 +234,13 @@ int insert(struct node2d *p2d, char* name2d, char* name1d){
         else{
             current2d->first = insertNode;
         }
-        printConfig(p2d);
         return 0;
     }
     printf("No such 2dNode is found\n");
     exit(2);
 
 }
+
 
 /*----------------- Part 4 ---------------------*/
 
