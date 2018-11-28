@@ -1,3 +1,10 @@
+/*
+ * Created Supporting functions for 2d Linked List in mkExample.c
+ * author@ Summer Li
+ *
+ */
+
+
 #include <stdlib.h>
 #include <stdio.h>
 #include <ctype.h>
@@ -33,10 +40,10 @@ int insertAlphabetically(struct node2d *p2d, char* name2d, char* name1d);
 
 
 // main 
-int main (void) {
+int main(int argc, char *argv[]) {
     struct node2d *p2d;
-    //p2d = mkExConfig();
-    p2d = part4Config();
+    p2d = mkExConfig();
+    //p2d = part4Config();
     printConfig(p2d);
     insertCommand(p2d);
     return 0;
@@ -81,8 +88,8 @@ void insertCommand(struct node2d *p2d){
             exit(2);
         }
         /*------------ Uncomment to insert alphabetically ------------*/
-        //insert(p2d, Name2d, Name1d);
-        insertAlphabetically(p2d, Name2d, Name1d);
+        insert(p2d, Name2d, Name1d);
+        //insertAlphabetically(p2d, Name2d, Name1d);
     }
     print2dNode(p2d);
     printf("\nInsertion Complete.\n");
@@ -270,10 +277,8 @@ int insertAlphabetically(struct node2d *p2d, char* name2d, char* name1d){
         }
         else{
             current1d = current2d->first;
-            before = NULL;
             // insert in the front
             if((strcmp(current1d->name, name1d)) >= 0){
-                printf("%s \t, %s\n", current1d->name, name1d);
                 insertNode->next = current1d;
                 current2d->first = insertNode;
             }
@@ -281,7 +286,6 @@ int insertAlphabetically(struct node2d *p2d, char* name2d, char* name1d){
                 before = current1d;
                 // get to the second 1dNode, insert in the middle
                 while((current1d = current1d->next) != NULL){
-                    printf("%s \t, %s\n", current1d->name, name1d);
                     // the node should be inserted before current node
                     if((strcmp(current1d->name, name1d)) >= 0){
                         insertNode->next = current1d;
@@ -298,7 +302,6 @@ int insertAlphabetically(struct node2d *p2d, char* name2d, char* name1d){
     }
     printf("No such 2dNode is found\n");
     exit(2);
-
 }
 
 
