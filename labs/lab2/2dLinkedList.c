@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include <ctype.h>
 #include <string.h>
-#define MAXLENGTH 50
+#define MAXLENGTH 255
 
 // structs
 struct node2d {
@@ -19,11 +19,12 @@ struct node1d {
 struct node1d *mk1dNode(char *name, struct node1d *next);
 struct node2d *mk2dNode(struct node1d *first, char *name, struct node2d *down);
 struct node2d *mkExConfig();
+// configuration for part 4
 struct node2d *part4Config();
-struct node2d *insertCommand(struct node2d *p2d);
 
 
 // external funs
+void insertCommand(struct node2d *p2d);
 void printConfig(struct node2d *p2d);
 void print2dNode(struct node2d *p2d);
 int print1dNode(struct node1d *p1d);
@@ -31,19 +32,19 @@ int insert(struct node2d *p2d, char* name2d, char* name1d);
 int insertAlphabetically(struct node2d *p2d, char* name2d, char* name1d);
 
 
-// main
+// main 
 int main (void) {
     struct node2d *p2d;
     p2d = mkExConfig();
+    //p2d = part4Config();
     printConfig(p2d);
-    p2d = insertCommand(p2d);
-    print2dNode(p2d);
-    printf("\nInsertion Complete.\n");
+    insertCommand(p2d);
     return 0;
 }
 
 
-struct node2d *insertCommand(struct node2d *p2d){
+
+void insertCommand(struct node2d *p2d){
     int c;
     // read commands for inserting a new 1dNode to an existing 2dNode
     printf("\nDo you want to insert a node?\n");
@@ -82,12 +83,12 @@ struct node2d *insertCommand(struct node2d *p2d){
         /*------------ Uncomment to insert alphabetically ------------*/
         insert(p2d, Name2d, Name1d);
         //insertAlphabetically(p2d, Name2d, Name1d);
-        free(Name2d);
-        free(Name1d);
     }
-    return p2d;
+    print2dNode(p2d);
+    printf("\nInsertion Complete.\n");
+    // when EOF occurs free the malloced memory
+    free(p2d);
     // clear the array
-
 }
 
 
@@ -234,6 +235,8 @@ int insert(struct node2d *p2d, char* name2d, char* name1d){
         else{
             current2d->first = insertNode;
         }
+        print2dNode(p2d);
+        printf("\n\n\n\n");
         return 0;
     }
     printf("No such 2dNode is found\n");
@@ -249,21 +252,25 @@ int insert(struct node2d *p2d, char* name2d, char* name1d){
  */
 
 int insertAlphabetically(struct node2d *p2d, char* name2d, char* name1d){
+    printf("name2d: %s, name1d: %s \n", name2d, name1d);
     struct node2d *current2d = p2d;
     struct node1d *current1d;
     struct node1d *before;
     struct node1d *insertNode;
     while(current2d->down != NULL){
+        printf("current2d node: %s, the insert 2d node: %s\n",current2d->name, name2d);
         if((strcmp(current2d->name, name2d)) != 0){
             current2d = current2d->down;
         }
         else{
+            printf("matching node found! %s\n", name2d);
             break;
         }
     }
     // check if it's the last one or the matching 2d node
     if((strcmp(current2d->name, name2d)) == 0){
         insertNode = mk1dNode(name1d, NULL);
+        printf("insertAlphabetically function new 1dNode:\n");
         if(current2d->first == NULL){
             current2d->first = insertNode;
         }
@@ -272,16 +279,23 @@ int insertAlphabetically(struct node2d *p2d, char* name2d, char* name1d){
             before = NULL;
             // insert in the front
             if((strcmp(current1d->name, name1d)) >= 0){
+                printf("%s \t, %s\n", current1d->name, name1d);
                 insertNode->next = current1d;
                 current2d->first = insertNode;
+                printf("insert in the front\n");
             }
             else{
+                // get to the second 1dNode
+                before = current1d;
+                current1d = current1d->next;
                 // insert in the middle
                 while(current1d->next != NULL){
+                    printf("%s \t, %s\n", current1d->name, name1d);
                     // the node should be inserted before current node
                     if((strcmp(current1d->name, name1d)) >= 0){
                         insertNode->next = current1d;
                         before->next = insertNode;
+                        printf("insert in the middle\n");
                         return 0;
                     }
                     before = current1d;
@@ -289,8 +303,10 @@ int insertAlphabetically(struct node2d *p2d, char* name2d, char* name1d){
                 }
                 // insert in the end
                 current1d->next = insertNode;
+                printf("insert in the end\n");
             }
         }
+        print2dNode(p2d);
         return 0;
     }
     printf("No such 2dNode is found\n");
